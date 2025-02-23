@@ -1,16 +1,23 @@
 class LlistaAlergens extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-    }
-
     connectedCallback() {
-        const alergens = JSON.parse(this.getAttribute("alergens")) || [];
-        this.shadowRoot.innerHTML = `
-            <ul>
-                ${alergens.map(alergen => `<li>${alergen}</li>`).join("")}
-            </ul>
+        const allergens = [
+            { name: 'Gluten', image: 'img/gluten.png' },
+            { name: 'Lactosa', image: 'img/lactosa.png' },
+            { name: 'Frutos Secos', image: 'img/frutos-secos.png' },
+        ];
+
+        this.innerHTML = `
+            <h3>Tipos de Alérgenos</h3>
+            <div class="allergens-list">
+                ${allergens.map(allergen => `
+                    <div class="allergen-item">
+                        <img src="${allergen.image}" alt="${allergen.name}">
+                        <p>${allergen.name}</p>
+                    </div>
+                `).join('')}
+            </div>
         `;
     }
 }
-customElements.define("llista-alergens", LlistaAlergens);
+
+customElements.define('llista-alergens', LlistaAlergens);

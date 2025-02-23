@@ -1,22 +1,33 @@
-import { obtenirPizzes } from "./services/pizzaService.js";
-import "./components/LlistaAlergens.js";
-import "./components/pizzaCard.js";
+import { PizzaService } from './services/pizzaService.js';
+import './components/pizzaCard.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("pizzas-container");
+
     try {
-        const pizzes = await obtenirPizzes();
-        pizzes.forEach(pizza => {
-            const card = document.createElement("pizza-card");
-            card.setAttribute("nom", pizza.nom);
-            card.setAttribute("desc", pizza.desc || "Sense descripció");
-            card.setAttribute("preu", pizza.preu ? pizza.preu.toFixed(2) + " €" : "Preu no disponible");
-            card.setAttribute("vegetariana", pizza.vegetariana);
-            card.setAttribute("alergens", JSON.stringify(pizza.alergens));
-            card.setAttribute("img", pizza.img || "https://via.placeholder.com/200");
-            container.appendChild(card);
-        });
+        const pizzas = await PizzaService.getPizzas();
+
+        if (pizzas.length > 0) {
+            let row = document.createElement("div");
+            row.classList.add("row");
+            container.appendChild(row);
+
+            pizzas.forEach((pizza, index) => {
+                if (index % 2 === 0 && index !== 0) {
+                    row = document.createElement("div");
+                    row.classList.add("row");
+                    container.appendChild(row);
+                }
+
+                const pizzaCard = document.createElement('pizza-card');
+                pizzaCard.setAttribute('data-pizza', JSON.stringify(pizza));
+                row.appendChild(pizzaCard);
+            });
+        } else {
+            container.innerHTML = "<p>No s'han trobat pizzes.</p>";
+        }
     } catch (error) {
-        console.error("Error carregant les pizzes", error);
+        console.error("Error obtenint les pizzes:", error);
+        container.innerHTML = "<p>Error carregant les pizzes.</p>";
     }
 });
