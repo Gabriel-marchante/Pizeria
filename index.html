@@ -4,10 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestras Pizzas</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: auto;
+        justify-content: center;
+        }
+        
+        /* .row {
+        display: block;
+        gap: 20px;
+        width: 50%;
+        } */
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #121212; 
+        }
+
+        header {
+            background-color: #1c1c1c; 
+            color: #ffffff; 
+            text-align: center;
+            padding: 30px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); 
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+        }
+    </style>
 </head>
 <body>
-    <h1>Nuestras Pizzas</h1>
+    <header>
+        <h1>Pizzeria Mcloud </h1>
+    </header>    
     <div id="pizzas-container" class="container"></div>
     <script type="module" src="./js/main.js" defer></script>
 </body>

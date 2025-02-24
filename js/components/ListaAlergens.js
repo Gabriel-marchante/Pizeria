@@ -1,21 +1,40 @@
-class LlistaAlergens extends HTMLElement {
-    connectedCallback() {
-        const allergens = [
-            { name: 'Gluten', image: 'img/gluten.png' },
-            { name: 'Lactosa', image: 'img/lactosa.png' },
-            { name: 'Frutos Secos', image: 'img/frutos-secos.png' },
-        ];
+export class LlistaAlergens extends HTMLElement {
+    constructor() {
+        super(); 
+        this.attachShadow({ mode: 'open' }); 
+    }
+    connectedCallback() {        
+        const alergens = this.getAttribute('alergens'); 
+        this.render(alergens); 
+    }
 
-        this.innerHTML = `
-            <h3>Tipos de Alérgenos</h3>
-            <div class="allergens-list">
-                ${allergens.map(allergen => `
-                    <div class="allergen-item">
-                        <img src="${allergen.image}" alt="${allergen.name}">
-                        <p>${allergen.name}</p>
-                    </div>
-                `).join('')}
-            </div>
+    render(alergens) {
+        if (!alergens) {   
+            this.shadowRoot.innerHTML = `
+                <p>No hay alérgenos especificados.</p>
+            `;            
+        }
+
+        const alergensArray = alergens.split(',');
+
+        let llista = ''; 
+        for (let i of alergensArray) { 
+            const alergen = i.trim();
+            llista += `
+                <img src="./img/${alergen}.png" alt="${alergen}" title="${alergen}"
+                style="width: 35px; height: 35px; margin: 2px;">
+            `;
+        }
+
+        this.shadowRoot.innerHTML = `
+            <style>
+                div {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: 10px;
+                }
+            </style>
+            <div>${llista}</div>
         `;
     }
 }
